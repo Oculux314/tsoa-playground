@@ -27,7 +27,7 @@ const cars: Vehicle[] = [
 let count = cars.length;
 
 // A post request should not contain an id.
-export type CarCreationParams = Pick<Vehicle, "make" | "model" | "year" | "color">;
+export type CarCreationParams = Omit<Vehicle, "id">;
 
 export class CarService {
   public get(id: number): Vehicle {
