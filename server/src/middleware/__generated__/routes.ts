@@ -175,6 +175,37 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCarController_updateCar: Record<string, TsoaRoute.ParameterSchema> = {
+                carId: {"in":"path","name":"carId","required":true,"dataType":"double"},
+                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"CarCreationParams"},
+        };
+        app.put('/cars/:carId',
+            ...(fetchMiddlewares<RequestHandler>(CarController)),
+            ...(fetchMiddlewares<RequestHandler>(CarController.prototype.updateCar)),
+
+            async function CarController_updateCar(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCarController_updateCar, request, response });
+
+                const controller = new CarController();
+
+              await templateService.apiHandler({
+                methodName: 'updateCar',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 

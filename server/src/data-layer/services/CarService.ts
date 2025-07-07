@@ -59,4 +59,14 @@ export class CarService {
     }
     cars.splice(index, 1);
   }
+
+  public async update(id: number, carCreationParams: CarCreationParams): Promise<Vehicle> {
+    const index = cars.findIndex((car) => car.id === id);
+    if (index === -1) {
+      throw new Error(`Car with id ${id} not found`);
+    }
+    const updatedCar = { ...cars[index], ...carCreationParams };
+    cars[index] = updatedCar;
+    return updatedCar;
+  }
 }
