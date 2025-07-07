@@ -19,13 +19,6 @@
 					"name": {
 						"type": "string"
 					},
-					"status": {
-						"type": "string",
-						"enum": [
-							"Happy",
-							"Sad"
-						]
-					},
 					"phoneNumbers": {
 						"items": {
 							"type": "string"
@@ -67,6 +60,68 @@
 			},
 			"UserCreationParams": {
 				"$ref": "#/components/schemas/Pick_User.email-or-name-or-phoneNumbers_"
+			},
+			"Vehicle": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"make": {
+						"type": "string"
+					},
+					"model": {
+						"type": "string"
+					},
+					"year": {
+						"type": "number",
+						"format": "double"
+					},
+					"color": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"make",
+					"model",
+					"year",
+					"color"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Vehicle.Exclude_keyofVehicle.id__": {
+				"properties": {
+					"make": {
+						"type": "string"
+					},
+					"model": {
+						"type": "string"
+					},
+					"year": {
+						"type": "number",
+						"format": "double"
+					},
+					"color": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"make",
+					"model",
+					"year",
+					"color"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_Vehicle.id_": {
+				"$ref": "#/components/schemas/Pick_Vehicle.Exclude_keyofVehicle.id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"CarCreationParams": {
+				"$ref": "#/components/schemas/Omit_Vehicle.id_"
 			}
 		},
 		"securitySchemes": {}
@@ -139,7 +194,14 @@
 				"operationId": "CreateUser",
 				"responses": {
 					"201": {
-						"description": "Created"
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
 					}
 				},
 				"security": [],
@@ -165,6 +227,104 @@
 								"schema": {
 									"items": {
 										"$ref": "#/components/schemas/User"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/cars/{carId}": {
+			"get": {
+				"operationId": "GetCar",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Vehicle"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "carId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteCar",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "carId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/cars": {
+			"post": {
+				"operationId": "CreateCar",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Vehicle"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CarCreationParams"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllCars",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Vehicle"
 									},
 									"type": "array"
 								}
