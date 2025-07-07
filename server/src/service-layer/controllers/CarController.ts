@@ -10,6 +10,7 @@ import {
   Get,
   Path,
   Post,
+  Put,
   Route,
   SuccessResponse,
 } from "tsoa";
@@ -38,5 +39,13 @@ export class CarController extends Controller {
   @Get()
   public async getAllCars(): Promise<Vehicle[]> {
     return new CarService().getAll();
+  }
+
+  @Put("{carId}")
+  public async updateCar(
+    @Path() carId: number,
+    @Body() requestBody: CarCreationParams
+  ): Promise<Vehicle> {
+    return new CarService().update(carId, requestBody);
   }
 }
